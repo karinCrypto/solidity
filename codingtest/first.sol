@@ -21,9 +21,9 @@ contract TEST1{
     }
     Student[] Students;
 
-     function getStudent(string memory _name, uint _number, uint _score, string memory _grade) public {
-        students.push(Student(_name, _number, _score, _grade));
-
+     function plusStudent(string memory _name, uint _number, uint _score, string memory _grade) public {
+        Students.push(Student(_name, _number, _score, _grade));
+     
      function Grade(uint _score) public pure returns (string memory) {
         if (score >= 90) {
             return "A";
