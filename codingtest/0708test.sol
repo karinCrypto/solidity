@@ -44,25 +44,14 @@ Jane,10,70
         uint number;
         uint score;
         string grade;
-        string classes;
+        string[] classes;
     }
     Student[] students;
     mapping(string => Student[]) Students;
 
-     constructor() {
-        addStudent("Alice", 85);
-        addStudent("Bob", 75);
-        addStudent("Charlie", 60);
-        addStudent("Dwayne", 90);
-        addStudent("Ellen", 65);
-        addStudent("Fitz", 50);
-        addStudent("Garret", 80);
-        addStudent("Hubert", 90);
-        addStudent("Isabel", 100);
-        addStudent("Jane", 70);
-    }
+   
 
-     function setGrade(uint _score) public {
+     function setGrade(uint _score) public pure returns(string memory) {
         if (_score >= 90) {
             return "A";
         } else if (_score >= 80) {
@@ -76,20 +65,38 @@ Jane,10,70
         }
            
         }
-        function setStudent(string memory _name, uint _number, uint _score) public {
-        string memory grade = setGrade(_score);
-        Student memory student = Student(_name, _number, _score, grade);
+          function getStudent(uint _number) public view returns(Student memory){
+        for (uint i = 0; i < students.length; i++) {
+            if (students[i].number == _number) {
+                return students[i];
+            }
+        }
+        revert("Student empty");
+    }
+           function getStudent2(string memory _name) public view returns(Student memory) {
+        for (uint i = 0; i < students.length; i++) {
+            if (keccak256(abi.encodePacked(students[i].name)) == keccak256(abi.encodePacked(_name))) {
+                return students[i];
+            }
+        }
+        revert("Student empty");
+    }
+          function getScore(string memory _name) public view returns(uint) {
 
-        students.push(student);
-        Students[_name] = student;
+        for(uint i = 0; i < students.length; i++){
+            if(keccak256(abi.encodePacked(students[i].name)) == keccak256(abi.encodePacked(_name))){
+
+                return students[i].score;   
+            }    
+        }
+        revert("Student empty");
+    }
+          function getStudentNumbers() public view returns(uint) {
+        return students.length;
+    }
+           function getStudents() public view returns(Student[] memory) {
+        return students;
+    }
+    
     }
 
-       function getStudentNumber(uint _number) public view returns (Student memory) {
-        return students[_number - 1];
-    }
-        function getStudentName(string memory _name) public view returns (Student memory) {
-        return students[_name - 1];
-    }
-        function getStudentScore(string memory _name) public view returns (uint256) {
-        return students[_score - 1];
-    }
