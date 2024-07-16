@@ -18,12 +18,12 @@ contract TEST {
     }
 
        if(hours > 0) {
-            _clock = string(abi.encodePacked(Strings.toString(hours), " hour "));
+            _clock = string(abi.encodePacked((hours), " hour "));
         }
         if(minutes > 0) {
-           _clock = string(abi.encodePacked(Strings.toString(minutes), " min "));
+           _clock = string(abi.encodePacked((minutes), " min "));
         }        
         if(seconds > 0) {
-           _clock = string(abi.encodePacked(Strings.toString(seconds), " sec"));        
+           _clock = string(abi.encodePacked((seconds), " sec"));        
         }
 }
