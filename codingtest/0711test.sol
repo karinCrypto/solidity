@@ -24,27 +24,44 @@ abi.encodePacked() 사용하기
 
 contract TEST {
 
-    mapping(string => bytes32) user;
-    mapping(string => uint) sign;
+    mapping(string => bytes32) IDPW;
+    mapping(string => uint) errCnt;
 
-    function register(string memory _id, string memory _pw) public {
-        require(user[_id] == bytes32(0), "user already exist");
-        user[_id] = keccak256(abi.encodePacked(_id, _pw));
+    event ChangePW(string message);
+
+    function getHash(string memory _id, string memory _pw) public pure returns(bytes32) {
+        return keccak256(abi.encodePacked(_id, _pw));
     }
 
-    function login(string memory _id, string memory _pw) public returns(bool) {
-        if (user[_id] == keccak256(abi.encodePacked(_id, _pw))){
-            sign[_id] = 0;
-            return true;
-        }
-        else { 
-            sign[_id] 
+    modifier Check(string memory _id, string memory _pw, bool _isPassed) {
+        require(IDPW[_id] != bytes32(0), "Sign up first");
+        _;
+    }
+
+
+    function signIn(string memory _id, string memory _pw, bool _isPassed) public Check(_id, _pw, _isPassed) returns(bool) {
+        if(getHash(_id, _pw)==IDPW[_id]) {
+            errCnt[_id] = 0;
+            isPassed =  true;
+        } else {
+            errCnt[_id]++;
+            if(errCnt[_id]==5){
+                emit ChangePW("Change PW");
             }
+
+        }
+        return false;
     }
 
-
-    function remove(string memory _id, string memory _pw) public {
-        require(user[_id] == keccak256(abi.encodePacked(_id, _pw)));
-        delete user[_id];
+    function signUp(string memory _id, string memory _pw) public {
+        require(IDPW[_id]==bytes32(0), "Already signed up");
+        bytes32 hash = getHash(_id, _pw);
+        IDPW[_id] = hash;
     }
+   
+   function deleteAccount(string memory _id, string memory _pw, bool _isPassed) public Check(_id, _pw, _isPassed){
+    require(_isPassed==true, "login failed");
+    delete IDPW[_id];
+    delete errCnt[_id];
+   }
 }
