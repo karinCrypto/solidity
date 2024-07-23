@@ -4,6 +4,7 @@ pragma solidity >=0.8.2 < 0.9.0;
 
 // 문제풀다가 시간되서 커밋하겠습니다. 풀어서 늦더라도 다시 커밋하겠습니다!
 
+
 contract Q41 {
     /*
     숫자만 들어갈 수 있으며 길이가 4인 배열을 (상태변수로)선언하고 그 배열에 숫자를 넣는 함수를 구현하세요. 
@@ -51,7 +52,21 @@ contract Q43 {
     
     힌트 : mapping을 꼭 이용하세요.
     */
+    mapping(address => uint) balance;
 
+    function deposit() public payable {
+        balance[msg.sender] = msg.value;
+    }
+
+    function getBalance() public view returns(uint) {
+        return balance[msg.sender];
+    }
+
+    function withdraw(uint _n) public {
+        require(balance[msg.sender] >= _n, "no ether");
+       // 이뒤에부분은 아직 잘모르겠습니다.. 
+
+    }
 }
 
 contract Q44 {
@@ -104,5 +119,51 @@ contract Q47 {
 
     constructor () {
         owner = msg.sender;
+    }
+    function changeOwner(address _addr) public {
+        require(owner == msg.sender, "No");
+        owner = _addr;
+    }
+}
+
+contract Q48_A {
+    /*
+    A라는 contract에는 2개의 숫자를 더해주는 함수를 구현하세요. 
+    B라고 하는 contract를 따로 만든 후에 A의 더하기 함수를 사용하는 코드를 구현하세요.
+    */
+    function add(uint _a, uint _b) public pure returns(uint) {
+        return _a + _b;
+    }
+}
+contract Q48_B {
+    Q48_A ab = new Q48_A();
+
+    function add(uint _a, uint _b) public view returns(uint) {
+        return ab.add(_a, _b);
+    }
+}
+
+contract Q49 {
+    /*
+    9. 긴 숫자를 넣었을 때, 마지막 3개의 숫자만 반환하는 함수를 구현하세요.
+    
+    예) 459273 → 273 // 492871 → 871 // 92218 → 218
+    */
+    function getNumber(uint _n) public pure returns(uint) {
+        return _n % 1000;
+    }
+}
+
+contract Q50 {
+    /*
+    10. 숫자 3개가 부여되면 그 3개의 숫자를 이어붙여서 반환하는 함수를 구현하세요. 
+    
+    예) 3,1,6 → 316 // 1,9,3 → 193 // 0,1,5 → 15 
+    
+    응용 문제 : 3개 아닌 n개의 숫자 이어붙이기
+    */
+
+    function getA(uint _a, uint _b, uint _c) public pure returns(uint) {
+        return _a * 100 + _b * 10 + _c * 1;
     }
 }
