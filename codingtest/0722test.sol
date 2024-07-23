@@ -33,3 +33,79 @@ contract TEST {
 }
 }
 }
+
+contract Testanswer {
+
+     function digits(uint _n) public pure returns(uint, uint[] memory) {
+        uint length = 0;
+        uint temp_n = _n;
+
+        while(temp_n != 0) {
+            length ++;
+            temp_n /=10;
+        }
+
+        uint r_length = length;
+
+        uint[] memory numbers = new uint[](length);
+        while(_n != 0) {
+            numbers[--length] = _n % 10;
+            // numbers[length--] = _n % 10;
+            _n /=10;
+        }
+
+        return (r_length, numbers);
+    }
+
+    function length(string memory _s) public pure returns(uint, string[] memory) {
+        uint _length = bytes(_s).length;
+        string[] memory _letters = new string[](_length);
+
+        bytes1[] memory _b = new bytes1[](_length);
+
+        for(uint i=0; i<_length; i++) {
+            _b[i] = bytes(_s)[i];
+            _letters[i] = string(abi.encodePacked(_b[i]));
+            // _letters[i] = string(abi.encodePacked(bytes(_s)[i]));
+        }
+
+        return (_length, _letters);
+    }
+
+    /* string은 바이트로 변환해서 길이를 구해야 한다.
+    function getBytes(bytes memory _b) public pure returns() {
+        return _b.length;
+    }
+    
+    function getByte1(bytes memory _b, uint _n) public pure returns(bytes1) {
+        return _b[n-1];
+    }
+    */
+
+}
+
+contract BASE {
+    function getBytes(bytes memory _b) public pure returns(uint) {
+        return _b.length;
+    }
+
+    function getByte1(bytes memory _b, uint _n) public pure returns(bytes1) {
+        return _b[_n-1];
+    }
+
+    function bytesToString(bytes memory _s) public pure returns(string memory) {
+        return string(_s);
+    }
+
+    function split(bytes memory b) public pure returns(uint, bytes1[] memory, string memory) {
+        uint _length = b.length;
+
+        bytes1[] memory _b = new bytes1[](_length);
+
+        for(uint i=0; i<_length; i++) {
+            _b[i] = b[i];
+        }
+
+        return (_length, _b, string(abi.encodePacked(_b)));
+    }
+}
