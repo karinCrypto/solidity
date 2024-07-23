@@ -88,10 +88,6 @@ contract Q6 {
         for(uint i=0; i<10; i++) {
             numbers.push(i);
         }
-    }
-    function getA() public view returns(uint[] memory) {
-        return numbers;
-    }
 }
 
 contract Q7 {
@@ -140,8 +136,8 @@ contract Q7 {
 
     contract Q9 {
         /*9.문자형을 입력하면 bytes 형으로 변환하여 반환하는 함수를 구현하세요.*/
-        function change(string memory _n)public pure returns(bytes memory) {
-            return bytes(_n);
+        function change(string memory str)public pure returns(bytes memory) {
+            return bytes(str);
         }
     }
 
