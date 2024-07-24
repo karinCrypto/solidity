@@ -64,7 +64,7 @@ contract Q43 {
 
     function withdraw(uint _n) public {
         require(balance[msg.sender] >= _n, "no ether");
-       // 이뒤에부분은 아직 잘모르겠습니다.. 
+        payable(msg.sender).transfer(address(this).balance);
 
     }
 }
