@@ -21,8 +21,10 @@ contract Q22 {
     예) 2,5 input → 5-2=3(output)
     */
      function sub(uint _a, uint _b) public pure returns(uint){
-        if(_a>_b){
-            
+        if(_a > _b){
+            return _a - _b;
+        } else {
+            return _b - _a;
         }
      }
 }
@@ -36,10 +38,12 @@ contract Q23 {
             return "A";
         } else if (_n % 3 == 1) {
             return "B";
-        } else (_n % 3 == 2){
-            return "C";
-        } 
-    }
+        } else if (_n % 3 == 2) {
+            return "C"; 
+        }   else {
+            return "0";
+        }
+}
 }
 
 contract Q24 {
@@ -58,23 +62,26 @@ contract Q25 {
     uint[] A;
     
     function setNumber(uint _n) public {
-        for(uint i = )
+        for(uint i = _n + 1; i>0; i--) {
+            A.push(i - 1);
+        }
     }
 
 }
 
 contract Q26 {
     /*
-    6. 홀수만 들어가는 array, 짝수만 들어가는 array를 구현하고 숫자를 넣었을 때 자동으로 홀,짝을 나누어 입력시키는 함수를 구현하세요.
+    6. 홀수만 들어가는 array, 짝수만 들어가는 array를 구현하고 숫자를 넣었을 때 
+    자동으로 홀,짝을 나누어 입력시키는 함수를 구현하세요.
     */
-    uint[] horse;
-    uint[] jjak;
+    uint[] even;
+    uint[] odd;
 
     function add(uint _n) public {
         if(_n % 2 ==0) {
-            jjak.push(_n);
+            even.push(_n);
         } else {
-            horse.push(_n);
+            odd.push(_n);
         }
     }
 
@@ -82,9 +89,10 @@ contract Q26 {
 
 contract Q27 {
     /*
-    7. string 과 bytes32를 key-value 쌍으로 묶어주는 mapping을 구현하세요. 해당 mapping에 정보를 넣고, 지우고 불러오는 함수도 같이 구현하세요.
+    7. string 과 bytes32를 key-value 쌍으로 묶어주는 mapping을 구현하세요. 
+    해당 mapping에 정보를 넣고, 지우고 불러오는 함수도 같이 구현하세요.
     */
-    mapping(string => bytes32) mapp;
+    mapping(string => bytes32) map;
 
      function setMap(string memory _key, bytes32 _value) public {
         map[_key] = _value;
@@ -130,4 +138,11 @@ contract Q30 {
     
     예 : [2,6,7,4,5,1,9] → [9,7,6,5,4,2,1]
     */
-}
+
+    function sort(uint[] memory _n) public pure returns(uint[] memory) {
+              for (uint i = 0; i < _n.length; i ++) {
+         
+        }
+    
+    }
+    }
