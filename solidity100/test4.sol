@@ -2,8 +2,6 @@
 
 pragma solidity >=0.8.2 < 0.9.0;
 
-// 시간도 부족하고 뒤에문제 어려워서 2차때 다시 시도하겠습니다 ..
-
 
 contract Q31 {
     /*
@@ -93,7 +91,15 @@ contract Q35 {
 
     uint[] numbers;
 
+      function pushNumbers(uint _n) public { 
+        numbers.push(_n);
+    }
 
+     function getArray() public view returns(uint[] memory) {
+        uint length = numbers.length/2;
+
+
+}
 }
 
 contract Q36 {
@@ -115,18 +121,66 @@ contract Q36 {
 
 contract Q37 {
     /*
-    7. 1 wei를 기부하는 기능, 1finney를 기부하는 기능 그리고 1 ether를 기부하는 기능을 구현하세요. 최초의 배포자만이 해당 smart contract에서 자금을 회수할 수 있고 다른 이들은 못하게 막는 함수도 구현하세요.
+    7. 1 wei를 기부하는 기능, 1finney를 기부하는 기능 그리고 1 ether를 기부하는 기능을 구현하세요. 
+    최초의 배포자만이 해당 smart contract에서 자금을 회수할 수 있고 다른 이들은 못하게 막는 함수도 구현하세요.
     
     (힌트 : 기부는 EOA가 해당 Smart Contract에게 돈을 보내는 행위, contract가 돈을 받는 상황)
     */
+    address owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function deposit1Wei() public payable {
+        require(msg.value == 1 wei, "no");
+    }
+
+    function deposit1Finney() public payable {
+        require(msg.value == 0.001 ether, "no");
+    }
+
+    function deposit1Ether() public payable {
+        require(msg.value == 1 ether, "no");
+    }
+
+    function withdraw() public {
+        require(msg.sender == owner, "no");
+        payable(owner).transfer(address(this).balance);
+    }
+
 }
 
 contract Q38 {
     /*
-    8. 상태변수 a를 "A"로 설정하여 선언하세요. 이 함수를 "B" 그리고 "C"로 변경시킬 수 있는 함수를 각각 구현하세요. 단 해당 함수들은 오직 owner만이 실행할 수 있습니다. owner는 해당 컨트랙트의 최초 배포자입니다.
+    8. 상태변수 a를 "A"로 설정하여 선언하세요. 
+    이 함수를 "B" 그리고 "C"로 변경시킬 수 있는 함수를 각각 구현하세요. 
+    단 해당 함수들은 오직 owner만이 실행할 수 있습니다. owner는 해당 컨트랙트의 최초 배포자입니다.
     
     (힌트 : 동일한 조건이 서로 다른 두 함수에 적용되니 더욱 효율성 있게 적용시킬 수 있는 방법을 생각해볼 수 있음)
     */
+    string a = "A";
+    address owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+     modifier onlyOwner {
+        require(msg.sender == owner, "no");
+        _;
+    }
+
+    function setB() public onlyOwner() {
+        a = "B";
+    }
+
+    function setC() public onlyOwner() {
+        a = "C";
+    }
+    
+
+
 
 }
 
@@ -136,6 +190,10 @@ contract Q39 {
     
     예) 15 : 7,5,3,2  (2의 배수 7개, 3의 배수 5개, 5의 배수 3개, 7의 배수 2개) // 100 : 50,33,20,14  (2의 배수 50개, 3의 배수 33개, 5의 배수 20개, 7의 배수 14개)
     */
+    function getNumber(uint _n) public pure returns(uint, uint, uint, uint) {
+        return (_n / 2, _n / 3, _n / 5, _n / 7);
+    }
+
 }
 
 contract Q40 {
