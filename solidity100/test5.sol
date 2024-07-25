@@ -14,7 +14,8 @@ contract Q41 {
     uint idx;
 
     function pushNumber(uint _n) public {
-        numbers[idx] = _n;
+        require(idx < 4, "no");
+        numbers[idx++] = _n;
     }
 
     function getNumber() public view returns(uint[4] memory) {
