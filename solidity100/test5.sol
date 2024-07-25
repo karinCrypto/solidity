@@ -2,9 +2,6 @@
 
 pragma solidity >=0.8.2 < 0.9.0;
 
-// 문제풀다가 시간되서 커밋하겠습니다. 풀어서 늦더라도 다시 커밋하겠습니다!
-
-
 contract Q41 {
     /*
     숫자만 들어갈 수 있으며 길이가 4인 배열을 (상태변수로)선언하고 그 배열에 숫자를 넣는 함수를 구현하세요. 
@@ -56,7 +53,7 @@ contract Q43 {
     mapping(address => uint) balance;
 
     function deposit() public payable {
-        balance[msg.sender] = msg.value;
+        balance[msg.sender] += msg.value;
     }
 
     function getBalance() public view returns(uint) {
@@ -166,5 +163,66 @@ contract Q50 {
 
     function getA(uint _a, uint _b, uint _c) public pure returns(uint) {
         return _a * 100 + _b * 10 + _c * 1;
+    }
+
+    function getB(uint[] memory _n) public pure returns(uint) {
+        uint res;
+        for(uint i =0; i < _n.length; i++) {
+            res += _n[i] * 10 ** (_n.length -1 -i);
+        }
+    }
+}
+
+
+import "@openzeppelin/contracts/utils/Strings.sol";
+
+contract TOSTRING {
+    function A(uint _a) public pure returns(string memory) {
+        return Strings.toString(_a);
+    }
+
+    // string.concat(a,b);
+    function getNumbers(uint[] memory _numbers) public pure returns(string memory) {
+        string memory _res;
+        for(uint i=0; i<_numbers.length; i++) {
+            _res = string.concat(_res, Strings.toString(_numbers[i]));
+        }
+        return _res;
+    }
+
+    function getDigits(uint _num) public pure returns(uint) {
+        uint idx = 1;
+        while(_num >= 10) {
+            _num = _num/10;
+            idx ++;
+        }
+
+        return idx;
+    }
+
+    function uintToBytes(uint8 _num) public pure returns(bytes1) {
+        return bytes1(_num);
+    }
+
+    function uintToString(uint _num) public pure returns(string memory) {
+        uint digits = getDigits(_num);
+        bytes memory _b = new bytes(digits);
+
+        while(_num != 0) {
+            digits--;
+            _b[digits] = bytes1(uint8(48+_num%10));
+            _num /= 10;
+        }
+
+        return string(_b);
+    }
+
+    function FINAL(uint[] memory _num) public pure returns(string memory) {
+        bytes memory _b = new bytes(_num.length);
+        for(uint i=0; i<_num.length; i++) {
+            _b = abi.encodePacked(_b, uintToString(_num[i]));
+        }
+
+        return string(abi.encodePacked(_b));
     }
 }
