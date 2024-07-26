@@ -33,3 +33,19 @@ contract TEST {
         }
     }
 } 
+
+contract BITWISE1 {
+    //and, or xor
+    function op1_and(uint a, uint b) public pure returns(uint) {
+        return a&b;
+    }
+    function op2_or(uint a, uint b) public pure returns(uint) {
+        return a | b;
+    }
+    //or
+
+    function op3_xor(uint a, uint b) public pure returns(uint) {
+        return a ^ b;
+    }
+    //xor
+}
