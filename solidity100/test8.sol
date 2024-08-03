@@ -76,6 +76,8 @@ contract Q73 {
     }
     function withdraw(uint _n) public payable {
         require(msg.sender == owner, "only owner");
+        require(_n <= iBalance[msg.sender], "no");
+        require(_n <= address(this).balance, "no");
         payable(msg.sender).transfer(_n);
     }
 }
